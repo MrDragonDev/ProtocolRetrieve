@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Materials/MaterialInterface.h"
 #include "GameFramework/Character.h"
 #include "You.generated.h"
 
@@ -26,6 +27,10 @@ public:
 
 	UFUNCTION()
 	void InteractLobby();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Interaction")
+	UMaterialInterface* LobbyOutline;
+
 
 	UFUNCTION()
 	AActor* GetActorFromMouse();

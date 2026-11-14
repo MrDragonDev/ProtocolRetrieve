@@ -52,11 +52,13 @@ void AYou::InteractLobby(){
 	if(HoveredActor != nullptr &&HoveredActor->ActorHasTag("InteractLobby")){
 		UE_LOG(LogTemp, Warning, TEXT("Yay"));
 
-		UMeshComponent* TheMesh = HoveredActor->FindComponentByClass<UMeshComponent>();
+// Gets the meshes (access to overlay)
+		TArray<UMeshComponent*> MeshComp;
+		HoveredActor->GetComponents<UMeshComponent>(MeshComp);
 
-		if(TheMesh){
-			TheMesh->SetRenderCustomDepth(true);
-			TheMesh->SetCustomDepthStencilValue(1);
+		for(UMeshComponent* CurrentMesh : MeshComp){
+// Sets overlay
+			CurrentMesh->SetOverlayMaterial(LobbyOutline);
 		}
 	}
 }
