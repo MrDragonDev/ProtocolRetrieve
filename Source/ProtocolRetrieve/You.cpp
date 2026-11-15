@@ -1,6 +1,7 @@
 #include "You.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Components/MeshComponent.h"
 
 
@@ -10,6 +11,11 @@ AYou::AYou()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface> OutlineMaterial(TEXT("/Game/LobbyOutline.LobbyOutline"));
+
+	if(OutlineMaterial.Succeeded()){
+		LobbyOutline = OutlineMaterial.Object;
+	}
 }
 
 // Called when the game starts or when spawned
