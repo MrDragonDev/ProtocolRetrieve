@@ -53,13 +53,25 @@ void AYou::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AYou::InteractLobby(){
 	AActor* HoveredActor = GetActorFromMouse();
-	TArray<AActor*> FoundActor;
 
-	if(HoveredActor != nullptr &&HoveredActor->ActorHasTag("InteractLobby")){
+	TArray<UMeshComponent*> MeshComp;
+
+	if(HoveredActor != PreviousActor){
+
+		if(PreviousActor != nullptr){
+			TArray<UMeshComponent*> MeshToRemove;
+			PreviousActor->GetComponents<UMeshComponent>(MeshToRemove);
+
+			for(UMeshComponent* DeleteMesh : MeshToRemove){
+				DeleteMesh->SetOverlayMaterial(nullptr);
+			}
+		}
+	}
+
+	if(HoveredActor != nullptr && HoveredActor->ActorHasTag("InteractLobby")){
 		UE_LOG(LogTemp, Warning, TEXT("Yay"));
 
 // Gets the meshes (access to overlay)
-		TArray<UMeshComponent*> MeshComp;
 		HoveredActor->GetComponents<UMeshComponent>(MeshComp);
 
 		for(UMeshComponent* CurrentMesh : MeshComp){
@@ -67,6 +79,8 @@ void AYou::InteractLobby(){
 			CurrentMesh->SetOverlayMaterial(LobbyOutline);
 		}
 	}
+
+	PreviousActor = HoveredActor;
 }
 
 AActor* AYou::GetActorFromMouse(){
